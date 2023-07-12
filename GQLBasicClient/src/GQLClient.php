@@ -13,7 +13,15 @@ final class GQLClient
 
 
 
-    public function executeQuery(string $query, ?array $variables = null, $headers = null)
+    /**
+     * Make a Graphql request
+     *
+     * @param string $query
+     * @param array|null $variables
+     * @param array|null $headers  array of strings, example ["Authorization: Bearer jwt"] 
+     * @return void
+     */
+    public function execute(string $query, ?array $variables = null, array $headers = null)
     {
         $curl = curl_init($this->url);
         curl_setopt($curl, CURLOPT_URL, $this->url);
@@ -21,7 +29,10 @@ final class GQLClient
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $data = static::createGQLQuery($query, $variables);
         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+        $defaultHeaders = ['Content-Type:application/json'];
+        $headerFinal = is_array($headers) ? array_merge($defaultHeaders, $headers) : $defaultHeaders;
+
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headerFinal);
         $resp = curl_exec($curl);
         curl_close($curl);
         $result = json_decode($resp, true);
