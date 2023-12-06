@@ -19,7 +19,7 @@ final class GQLClient
      * @param string $query
      * @param array|null $variables
      * @param array|null $headers  array of strings, example ["Authorization: Bearer jwt"] 
-     * @return void
+     * @return array
      */
     public function execute(string $query, ?array $variables = null, array $headers = null)
     {
