@@ -34,6 +34,10 @@ final class GQLClient
 
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headerFinal);
         $resp = curl_exec($curl);
+        if ($resp === false) {
+            $error =  curl_error($curl);
+            throw new \Exception($error);
+        }
         curl_close($curl);
         $result = json_decode($resp, true);
         return $result;
