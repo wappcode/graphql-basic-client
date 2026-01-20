@@ -21,7 +21,7 @@ final class GQLClient
      * @param array|null $headers  array of strings, example ["Authorization: Bearer jwt"] 
      * @return array
      */
-    public function execute(string $query, ?array $variables = null, array $headers = null)
+    public function execute(string $query, ?array $variables = null, ?array $headers = null)
     {
         $curl = curl_init($this->url);
         curl_setopt($curl, CURLOPT_URL, $this->url);
