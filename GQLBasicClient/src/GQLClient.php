@@ -111,13 +111,13 @@ final class GQLClient
     /**
      * Initialize cURL handle
      *
-     * @return resource
+     * @return resource|\CurlHandle
      * @throws GQLClientException
      */
     private function initializeCurl()
     {
         $curl = curl_init($this->url);
-        
+
         if ($curl === false) {
             throw new GQLClientException(
                 "Failed to initialize cURL",
@@ -133,7 +133,7 @@ final class GQLClient
     /**
      * Configure cURL options
      *
-     * @param resource $curl
+     * @param resource|\CurlHandle $curl
      * @param string $query
      * @param array|null $variables
      * @param array|null $headers
