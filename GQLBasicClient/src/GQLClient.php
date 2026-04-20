@@ -174,13 +174,24 @@ final class GQLClient
     /**
      * Create GraphQL query payload
      *
-     * @param string $query
+     * @param string | GQLQueryNameParser $query
      * @param array|null $variables
      * @return string JSON encoded query
      * @throws GQLClientException
      */
-    private function createGQLQuery(string $query, ?array $variables): string
+    private function createGQLQuery($query, ?array $variables): string
     {
+        if ($query instanceof GQLQueryNameParser) {
+            $query = (string)$query;
+        }
+        if (!is_string($query)) {
+            throw new GQLClientException(
+                "Query must be a string or an instance of GQLQueryNameParser",
+                0,
+                null,
+                ['queryType' => gettype($query)]
+            );
+        }
         $payload = [
             'query' => $query,
             'variables' => $variables ?? [],
